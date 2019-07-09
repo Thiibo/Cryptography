@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Poly-alphabetic substitution</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Assistant&display=swap" rel="stylesheet">
+  </head>
+  <body onload="setActionButtonsHeight()">
+    <h1>Cryptography <span>(Poly-alphabetic substitution)</span></h1>
+    <main>
+      <div id="inner">
+        <div id="keys">
+          <div id="key_head">
+            <div class="keyContent">
+              <label for="key_head_input">Head key:&nbsp&nbsp</label><input type="text" value="" id="key_head_input">
+              <button type="button" id="key_head_randomize" onclick="randomizeHead()">R</button>
+            </div>
+          </div>
+          <div id="key_vignere">
+            <div class="keyContent">
+              <label for="key_vignere_input">Vignere key:&nbsp&nbsp</label><input type="text" value="" id="key_vignere_input">
+              <button type="button" id="key_vignere_randomize" onclick="randomizeVignere()">R</button>
+            </div>
+          </div>
+        </div>
+        <div id="encryptdecrypt">
+          <div id="decrypted">
+            <textarea rows="8" cols="80" id="decryptedField"></textarea>
+          </div>
+          <div id="actions">
+            <button type="button" id="encrypt" onclick="encrypt()">>></button>
+            <button type="button" id="decrypt" onclick="decrypt()"><<</button>
+          </div>
+          <div id="encrypted">
+            <textarea rows="8" cols="80" id="encryptedField"></textarea>
+          </div>
+        </div>
+      </div>
+    </main>
+    <div id="author">By Thiibo @ <a href="https://thiibo.github.io">thiibo.github.io</a></div>
+    <script type="text/javascript" src="app.js"></script>
+  </body>
+</html>
