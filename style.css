@@ -23,6 +23,7 @@ main {
 #key_head {
   display: flex;
   justify-content: flex-start;
+  margin-right: 10px;
 }
 #key_head .keyContent {
   background-color: #e23822;
@@ -31,6 +32,7 @@ main {
 #key_vignere {
   display: flex;
   justify-content: flex-end;
+  margin-left: 10px;
 }
 #key_vignere .keyContent {
   background-color: #e28822;
@@ -39,6 +41,8 @@ main {
 .keyContent {
   padding: 6px 12px;
   border-radius: 20px;
+  display: flex;
+  align-items: center;
 }
 #key_head_input, #key_vignere_input, #key_head_randomize, #key_vignere_randomize {
   border: none;
@@ -47,8 +51,8 @@ main {
 }
 #key_head_randomize, #key_vignere_randomize {
   border-radius: 50px;
-  height: 28px;
-  width: 28px;
+  min-height: 28px;
+  min-width: 28px;
   cursor: pointer;
   margin-left: 5px;
 }
@@ -72,14 +76,14 @@ main {
   border: none;
 }
 #actions {
-  width: 10%;
+  width: 130px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 #encrypt, #decrypt {
-  width: 50%;
+  width: 60px;
   margin: 40px;
   background-color: #112f89;
   border: 2px solid #0b1f59;
@@ -105,3 +109,43 @@ main {
   text-decoration: none;
 }
 #author a:hover {color: #c98012}
+
+@media only screen and (max-width: 750px) {
+  .keyContent {
+    width: 185px;
+    flex-wrap: wrap;
+  }
+  .keyContent label {
+    display: block;
+    margin-bottom: 5px;
+  }
+}
+@media only screen and (max-width: 700px) {
+  #encryptdecrypt {flex-direction: column;}
+  #decrypted, #actions, #encrypted {width: 100%;}
+  #decryptedField, #encryptedField {min-height: 130px;}
+  #actions {
+    flex-direction: row;
+    height: 100px;
+  }
+  #encrypt, #decrypt {
+    transform: rotate(90deg);
+  }
+}
+@media only screen and (max-width: 580px) {
+  #keys {flex-direction: column;}
+  #key_head, #key_vignere {
+    margin: 0;
+    width: 100% !important;
+  }
+  #key_vignere {margin-top: 10px;}
+  .keyContent {width: 100%;}
+  .keyContent label {margin: 0; width: 88px;}
+  #key_head_input, #key_vignere_input {flex: max-content;}
+}
+@media only screen and (max-width: 430px) {
+  h1 {font-size: 25px;}
+  .keyContent label {width: 120px; margin-bottom: 5px;}
+  #encrypt, #decrypt {margin: 20px;}
+  #author {text-align: center; margin-left: 0;}
+}

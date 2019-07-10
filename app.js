@@ -129,7 +129,6 @@ function randomizeVignere() {
 
 function setActionButtonsHeight() {
   document.getElementById("encrypt").style.height = document.getElementById("encrypt").offsetWidth + "px";
-  document.getElementById("decrypt").style.height = document.getElementById("encrypt").offsetWidth + "px";
-  console.log("hi");
+  document.getElementById("decrypt").style.height = document.getElementById("decrypt").offsetWidth + "px";
 }
-window.addEventListener('resize', setActionButtonsHeight);
+/*window.addEventListener('resize', setActionButtonsHeight);*/
