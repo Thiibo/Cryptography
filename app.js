@@ -1,13 +1,15 @@
 const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÁÀÃÂÇÉÈÊÍÌÎÓÒÕÔÚÙÛáàãâçéèêíìîóòõôúùû0123456789.,?!;:<>/\\+-*%=_~&|@#\"’'§^°()[]{}$€£²³´` \n"
+let encryptedField = document.getElementById('encryptedField');
+let decryptedField = document.getElementById('decryptedField');
 console.log("Length of charSet = " + charSet.length)
 
 function setCustomCharSet() {
-  keyVignereAfter = "";
+  let keyVigenereAfter = "";
   let usedChars = [];
-  for(let i = 0; i < keyVignere.length; i++) {
-    if(usedChars.indexOf(keyVignere[i]) == -1) {
-      keyVignereAfter = keyVignereAfter + keyVignere[i];
-      usedChars.push(keyVignere[i]);
+  for(let i = 0; i < keyVigenere.length; i++) {
+    if(usedChars.indexOf(keyVigenere[i]) == -1) {
+      keyVigenereAfter = keyVigenereAfter + keyVigenere[i];
+      usedChars.push(keyVigenere[i]);
     }
   }
   customCharSet = ""
@@ -16,30 +18,30 @@ function setCustomCharSet() {
       customCharSet = customCharSet + charSet[i];
     }
   }
-  customCharSet = keyVignereAfter + customCharSet;
+  customCharSet = keyVigenereAfter + customCharSet;
   console.log("Custom charset: " + customCharSet);
 }
 function encrypt() {
-  keyVignere = document.getElementById('key_vignere_input').value;
+  keyVigenere = document.getElementById('key_vigenere_input').value;
   let keyHead = document.getElementById('key_head_input').value;
-  let decryptedMsg = document.getElementById('decryptedField').value;
-  for(let i = 0; i < keyVignere.length; i++) {
-    if(charSet.indexOf(keyVignere[i]) == -1) {
-      errorMsg = "ERROR: The vignere key cannot contain the character '" + keyVignere[i] + "'.\nAccepted characters are:\n\n" + charSet;
-      document.getElementById('encryptedField').style.border = "1px dashed red";
-      document.getElementById('encryptedField').value = errorMsg;
+  let decryptedMsg = decryptedField.value;
+  for(let i = 0; i < keyVigenere.length; i++) {
+    if(charSet.indexOf(keyVigenere[i]) == -1) {
+      errorMsg = "ERROR: The vigenere key cannot contain the character '" + keyVigenere[i] + "'.\nAccepted characters are:\n\n" + charSet;
+      encryptedField.value = errorMsg;
+      encryptedField.classList.add("error");
       return;
     }
   }
   for (let i = 0; i < decryptedMsg.length; i++) {
     if(charSet.indexOf(decryptedMsg[i]) == -1) {
       errorMsg = "ERROR: The decrypted message (input) cannot contain the character '" + decryptedMsg[i] + "'.\nAccepted characters are:\n\n" + charSet;
-      document.getElementById('encryptedField').style.border = "1px dashed red";
-      document.getElementById('encryptedField').value = errorMsg;
+      encryptedField.value = errorMsg;
+      encryptedField.classList.add("error");
       return;
     }
   }
-  document.getElementById('encryptedField').setAttribute("style", "");
+  encryptedField.classList.remove("error");
   setCustomCharSet();
   let encryptedMsg = "";
   for (let i = 0; i < decryptedMsg.length; i++) {
@@ -58,30 +60,30 @@ function encrypt() {
     console.log("For '" + decryptedMsg[i] + "' (" + customCharSet.indexOf(decryptedMsg[i]) + "): encrypted char = " + encryptedCharIndex + " ('" + encryptedChar + "')");
     encryptedMsg = encryptedMsg + encryptedChar;
   }
-  document.getElementById('encryptedField').value = "§" + encryptedMsg;
+  encryptedField.value = "§" + encryptedMsg;
 }
 function decrypt() {
-  keyVignere = document.getElementById('key_vignere_input').value;
+  keyVigenere = document.getElementById('key_vigenere_input').value;
   let keyHead = document.getElementById('key_head_input').value;
-  let encryptedMsg = document.getElementById('encryptedField').value.substring(1);
+  let encryptedMsg = encryptedField.value.substring(1);
   console.log(encryptedMsg);
-  for(let i = 0; i < keyVignere.length; i++) {
-    if(charSet.indexOf(keyVignere[i]) == -1) {
-      errorMsg = "ERROR: The vignere key cannot contain the character '" + keyVignere[i] + "'.\nAccepted characters are:\n\n" + charSet;
-      document.getElementById('encryptedField').style.border = "1px dashed red";
-      document.getElementById('encryptedField').value = errorMsg;
+  for(let i = 0; i < keyVigenere.length; i++) {
+    if(charSet.indexOf(keyVigenere[i]) == -1) {
+      errorMsg = "ERROR: The vigenere key cannot contain the character '" + keyVigenere[i] + "'.\nAccepted characters are:\n\n" + charSet;
+      decryptedField.value = errorMsg;
+      decryptedField.classList.add("error");
       return;
     }
   }
   for (let i = 0; i < encryptedMsg.length; i++) {
     if(charSet.indexOf(encryptedMsg[i]) == -1 && encryptedMsg[i] != "¬" && encryptedMsg[i] != "·") {
       errorMsg = "ERROR: The encrypted message (input) cannot contain the character '" + encryptedMsg[i] + "'.\nAccepted characters are:\n\n" + charSet;
-      document.getElementById('encryptedField').style.border = "1px dashed red";
-      document.getElementById('encryptedField').value = errorMsg;
+      decryptedField.value = errorMsg;
+      decryptedField.classList.add("error");
       return;
     }
   }
-  document.getElementById('encryptedField').setAttribute("style", "");
+  decryptedField.classList.remove("error");
   setCustomCharSet();
   let decryptedMsg = "";
   for (let i = 0; i < encryptedMsg.length; i++) {
@@ -109,8 +111,10 @@ function decrypt() {
     console.log("For '" + encryptedMsg[i] + "' (" + customCharSet.indexOf(encryptedMsg[i]) + "): decrypted char = " + decryptedCharIndex + " ('" + decryptedChar + "')");
     decryptedMsg = decryptedMsg + decryptedChar;
   }
-  document.getElementById('decryptedField').value = decryptedMsg;
+  decryptedField.value = decryptedMsg;
 }
+decryptedField.addEventListener('input', function() {decryptedField.classList.remove("error");}, false);
+encryptedField.addEventListener('input', function() {encryptedField.classList.remove("error");}, false);
 
 function randomize(n) {
   let str = ""
@@ -123,8 +127,8 @@ function randomize(n) {
 function randomizeHead() {
   document.getElementById('key_head_input').value = randomize(Math.floor(Math.random() * 15) + 1);
 }
-function randomizeVignere() {
-  document.getElementById('key_vignere_input').value = randomize(Math.floor(Math.random() * 15) + 1);
+function randomizeVigenere() {
+  document.getElementById('key_vigenere_input').value = randomize(Math.floor(Math.random() * 15) + 1);
 }
 
 function setActionButtonsHeight() {

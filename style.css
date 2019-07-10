@@ -29,12 +29,12 @@ main {
   background-color: #e23822;
   border: 2px solid darkred;
 }
-#key_vignere {
+#key_vigenere {
   display: flex;
   justify-content: flex-end;
   margin-left: 10px;
 }
-#key_vignere .keyContent {
+#key_vigenere .keyContent {
   background-color: #e28822;
   border: 2px solid #a06119;
 }
@@ -44,19 +44,19 @@ main {
   display: flex;
   align-items: center;
 }
-#key_head_input, #key_vignere_input, #key_head_randomize, #key_vignere_randomize {
+#key_head_input, #key_vigenere_input, #key_head_randomize, #key_vigenere_randomize {
   border: none;
   background-color: rgba(0, 0, 0, 0.3);
   padding: 5px;
 }
-#key_head_randomize, #key_vignere_randomize {
+#key_head_randomize, #key_vigenere_randomize {
   border-radius: 50px;
   min-height: 28px;
   min-width: 28px;
   cursor: pointer;
   margin-left: 5px;
 }
-#key_head_randomize:hover, #key_vignere_randomize:hover {background-color: rgba(0, 0, 0, 0.35);}
+#key_head_randomize:hover, #key_vigenere_randomize:hover {background-color: rgba(0, 0, 0, 0.35);}
 #encryptdecrypt {
   margin-top: 20px;
   display: flex;
@@ -75,6 +75,7 @@ main {
   color: white;
   border: none;
 }
+.error {color: red !important;}
 #actions {
   width: 130px;
   display: flex;
@@ -92,6 +93,7 @@ main {
   color: white;
   font-weight: bolder;
   cursor: pointer;
+  outline: none;
 }
 #encrypt:hover, #decrypt:hover {
   background-color: #0e2a7c;
@@ -119,8 +121,6 @@ main {
     display: block;
     margin-bottom: 5px;
   }
-}
-@media only screen and (max-width: 700px) {
   #encryptdecrypt {flex-direction: column;}
   #decrypted, #actions, #encrypted {width: 100%;}
   #decryptedField, #encryptedField {min-height: 130px;}
@@ -134,14 +134,14 @@ main {
 }
 @media only screen and (max-width: 580px) {
   #keys {flex-direction: column;}
-  #key_head, #key_vignere {
+  #key_head, #key_vigenere {
     margin: 0;
     width: 100% !important;
   }
-  #key_vignere {margin-top: 10px;}
+  #key_vigenere {margin-top: 10px;}
   .keyContent {width: 100%;}
   .keyContent label {margin: 0; width: 88px;}
-  #key_head_input, #key_vignere_input {flex: max-content;}
+  #key_head_input, #key_vigenere_input {flex: max-content;}
 }
 @media only screen and (max-width: 430px) {
   h1 {font-size: 25px;}

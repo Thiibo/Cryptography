@@ -2,13 +2,13 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Poly-alphabetic substitution</title>
+    <title>Polyalphabetic cipher</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Assistant&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="favicon.png">
   </head>
   <body onload="setActionButtonsHeight()">
-    <h1>Cryptography <span>(Poly-alphabetic substitution)</span></h1>
+    <h1>Cryptography <span>(Polyalphabetic cipher)</span></h1>
     <main>
       <div id="inner">
         <div id="keys">
@@ -18,10 +18,10 @@
               <button type="button" id="key_head_randomize" onclick="randomizeHead()">R</button>
             </div>
           </div>
-          <div id="key_vignere">
+          <div id="key_vigenere">
             <div class="keyContent">
-              <label for="key_vignere_input">Vignere key:&nbsp&nbsp</label><input type="text" value="" id="key_vignere_input">
-              <button type="button" id="key_vignere_randomize" onclick="randomizeVignere()">R</button>
+              <label for="key_vigenere_input">Vigenere key:&nbsp&nbsp</label><input type="text" value="" id="key_vigenere_input">
+              <button type="button" id="key_vigenere_randomize" onclick="randomizeVigenere()">R</button>
             </div>
           </div>
         </div>
@@ -34,7 +34,7 @@
             <button type="button" id="decrypt" onclick="decrypt()"><<</button>
           </div>
           <div id="encrypted">
-            <textarea rows="8" cols="80" id="encryptedField"></textarea>
+            <textarea rows="8" cols="80" id="encryptedField" spellcheck="false"></textarea>
           </div>
         </div>
       </div>
