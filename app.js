@@ -1,4 +1,4 @@
-const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÁÀÃÂÇÉÈÊÍÌÎÓÒÕÔÚÙÛáàãâçéèêíìîóòõôúùû0123456789.,?!;:<>/\\+-*%=_~&|@#\"’'§^°()[]{}$€£²³´` \n"
+const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÁÀÃÂÄÇÉÈÊËÍÌÎÏÓÒÕÔÖØÚÙÛÜŒáàãâäçéèêëíìîïóòõôöøúùûüœ0123456789.,?!;:<>/\\+-*%=_~¨&|@#©®♥♦♣♠\"«»‘’'§^°()[]{}$€£²³´` \n"
 let encryptedField = document.getElementById('encryptedField');
 let decryptedField = document.getElementById('decryptedField');
 console.log("Length of charSet = " + charSet.length)
@@ -33,32 +33,47 @@ function encrypt() {
       return;
     }
   }
-  for (let i = 0; i < decryptedMsg.length; i++) {
-    if(charSet.indexOf(decryptedMsg[i]) == -1) {
-      errorMsg = "ERROR: The decrypted message (input) cannot contain the character '" + decryptedMsg[i] + "'.\nAccepted characters are:\n\n" + charSet;
-      encryptedField.value = errorMsg;
-      encryptedField.classList.add("error");
-      return;
-    }
-  }
   encryptedField.classList.remove("error");
   setCustomCharSet();
   let encryptedMsg = "";
+  let j = 0;
+  let addedExtraBackslash = true;
   for (let i = 0; i < decryptedMsg.length; i++) {
-    encryptedCharIndex = customCharSet.indexOf(keyHead[i % keyHead.length]) - customCharSet.indexOf(decryptedMsg[i]);
-    encryptedCharIndex = encryptedCharIndex < 0 ? customCharSet.length + encryptedCharIndex : encryptedCharIndex;
-    switch (customCharSet[encryptedCharIndex]) {
-      case "\n":
-        encryptedChar = "¬";
-        break;
-      case " ":
-        encryptedChar = "·";
-        break;
-      default:
-        encryptedChar = customCharSet[encryptedCharIndex];
+    console.log("i = " + i);
+    let decryptedCharIndex = customCharSet.indexOf(decryptedMsg[i]);
+    if(decryptedCharIndex === -1) {
+      decryptedCode = "\\#" + decryptedMsg.charCodeAt(i) + "\\";
+      for (let k = 0; k < decryptedCode.length; k++) {
+        let encryptedCharIndex = customCharSet.indexOf(keyHead[j % keyHead.length]) - customCharSet.indexOf(decryptedCode[k]);
+        encryptedCharIndex = encryptedCharIndex < 0 ? customCharSet.length + encryptedCharIndex : encryptedCharIndex;
+        let encryptedChar = customCharSet[encryptedCharIndex];
+        encryptedMsg = encryptedMsg + encryptedChar;
+        j++
+        console.log("| For '" + decryptedMsg[i] + "' (-1): decrypted char = " + decryptedCode[k] + " ('" + encryptedChar + "')");
+      }
+    } else {
+      let encryptedCharIndex = customCharSet.indexOf(keyHead[j % keyHead.length]) - decryptedCharIndex;
+      encryptedCharIndex = encryptedCharIndex < 0 ? customCharSet.length + encryptedCharIndex : encryptedCharIndex;
+      switch (customCharSet[encryptedCharIndex]) {
+        case "\n":
+          encryptedChar = "¬";
+          break;
+        case " ":
+          encryptedChar = "·";
+          break;
+        default:
+          encryptedChar = customCharSet[encryptedCharIndex];
+      }
+      console.log("For '" + decryptedMsg[i] + "' (" + decryptedCharIndex + "): encrypted char = " + encryptedCharIndex + " ('" + encryptedChar + "')");
+      encryptedMsg = encryptedMsg + encryptedChar;
+      j++;
+      if (decryptedMsg[i] === "\\") {
+        addedExtraBackslash = addedExtraBackslash ? false : true;
+        if (addedExtraBackslash === false) {
+          i--
+        }
+      }
     }
-    console.log("For '" + decryptedMsg[i] + "' (" + customCharSet.indexOf(decryptedMsg[i]) + "): encrypted char = " + encryptedCharIndex + " ('" + encryptedChar + "')");
-    encryptedMsg = encryptedMsg + encryptedChar;
   }
   encryptedField.value = "§" + encryptedMsg;
 }
@@ -66,7 +81,6 @@ function decrypt() {
   keyVigenere = document.getElementById('key_vigenere_input').value;
   let keyHead = document.getElementById('key_head_input').value;
   let encryptedMsg = encryptedField.value.substring(1);
-  console.log(encryptedMsg);
   for(let i = 0; i < keyVigenere.length; i++) {
     if(charSet.indexOf(keyVigenere[i]) == -1) {
       errorMsg = "ERROR: The vigenere key cannot contain the character '" + keyVigenere[i] + "'.\nAccepted characters are:\n\n" + charSet;
@@ -86,6 +100,8 @@ function decrypt() {
   decryptedField.classList.remove("error");
   setCustomCharSet();
   let decryptedMsg = "";
+  let charCodeFind = 0;
+  let escape = false;
   for (let i = 0; i < encryptedMsg.length; i++) {
     switch (encryptedMsg[i]) {
       case "¬":
@@ -105,11 +121,33 @@ function decrypt() {
       case "·":
         decryptedChar = " ";
         break;
+      case "#":
+        if(decryptedMsg.slice(-1) === "\\" && escape !== false) {
+          charCodeFind = 1;
+          escape = escape ? false : true;
+        }
+        decryptedChar = customCharSet[decryptedCharIndex];
+        break;
+      case "\\":
+        if (charCodeFind > 0) {
+          charCode = decryptedMsg.slice(-charCodeFind + 2);
+          console.log("charCode = " + charCode);
+          decryptedMsg = decryptedMsg.slice(0, -charCodeFind);
+          charCodeFind = 0;
+          decryptedChar = String.fromCharCode(charCode);
+        } else {
+          if (escape) {decryptedChar = ""} else {decryptedChar = customCharSet[decryptedCharIndex];}
+          escape = escape ? false : true;
+        }
+        break;
       default:
         decryptedChar = customCharSet[decryptedCharIndex];
     }
     console.log("For '" + encryptedMsg[i] + "' (" + customCharSet.indexOf(encryptedMsg[i]) + "): decrypted char = " + decryptedCharIndex + " ('" + decryptedChar + "')");
     decryptedMsg = decryptedMsg + decryptedChar;
+    charCodeFind += charCodeFind > 0 ? 1 : 0;
+    charCodeFind = charCodeFind > 7 ? 0 : charCodeFind;
+    console.log("charCodeFind = " + charCodeFind);
   }
   decryptedField.value = decryptedMsg;
 }
